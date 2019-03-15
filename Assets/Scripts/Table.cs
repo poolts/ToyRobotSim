@@ -26,4 +26,12 @@ public class Table : MonoBehaviour
             }
         }
     }
+
+    public void Place(int x, int y, int f)
+    {
+        // Then place
+        if(m_cells.GetLength(0) < x && m_cells.GetLength(1) < y)
+        {
+        }
+    }
 }
