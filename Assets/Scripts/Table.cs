@@ -22,7 +22,7 @@ public class Table : MonoBehaviour
         {
             for(int j = 0; j < m_cells.GetLength(1); j++)
             {
-                GameObject.Instantiate(m_cellPrefab, new Vector3(j * 1.2f, 0, i * 1.2f), Quaternion.identity);
+                GameObject.Instantiate(m_cellPrefab, new Vector3(j, 0, i), Quaternion.identity);
             }
         }
     }
