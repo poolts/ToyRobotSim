@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class Table : MonoBehaviour
 {
-    Transform[,] m_cells;
+    [SerializeField]
+    Transform m_robotTrans = null;
 
     [SerializeField]
     GameObject m_cellPrefab = null;
 
+    Transform[,] m_cells;
+
     public void Start()
     {
         Generate(5);
+
+        Place(2, 2, 1);
     }
 
     public void Generate(int tableSize)
@@ -22,7 +27,7 @@ public class Table : MonoBehaviour
         {
             for(int j = 0; j < m_cells.GetLength(1); j++)
             {
-                GameObject.Instantiate(m_cellPrefab, new Vector3(j, 0, i), Quaternion.identity);
+                m_cells[i, j] = GameObject.Instantiate(m_cellPrefab, new Vector3(j, 0, i), Quaternion.identity).transform;
             }
         }
     }
@@ -30,8 +35,9 @@ public class Table : MonoBehaviour
     public void Place(int x, int y, int f)
     {
         // Then place
-        if(m_cells.GetLength(0) < x && m_cells.GetLength(1) < y)
+        if(x >= 0 && x < m_cells.GetLength(0) && y >= 0 && y < m_cells.GetLength(1))
         {
+            m_robotTrans.transform.position = m_cells[x, y].position;
         }
     }
 }

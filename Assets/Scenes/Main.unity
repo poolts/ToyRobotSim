@@ -385,3 +385,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_cellPrefab: {fileID: 7594037416216055782, guid: 1c30e536ea632464eb3f9475dd525bfb,
     type: 3}
+  m_robotTrans: {fileID: 148088144}
