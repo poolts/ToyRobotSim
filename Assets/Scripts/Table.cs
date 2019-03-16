@@ -12,11 +12,23 @@ public class Table : MonoBehaviour
 
     Transform[,] m_cells;
 
+    public struct CellLocation
+    {
+        public int X;
+        public int Y;
+
+        public CellLocation(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+    }
+
     public void Start()
     {
         Generate(5);
 
-        Place(2, 2, Robot.Facing.North);
+        Place(2, 2, Robot.Direction.North);
     }
 
     public void Generate(int tableSize)
@@ -36,7 +48,7 @@ public class Table : MonoBehaviour
         }
     }
 
-    public void Place(int x, int y, Robot.Facing facing)
+    public void Place(int x, int y, Robot.Direction facing)
     {
         // If the cell is valid (i.e. not off the table then place the robot)
         if(IsValidCell(x, y))
@@ -51,12 +63,40 @@ public class Table : MonoBehaviour
 
     public void Move()
     {
-        // Get robots current cell
+        CellLocation neighbouringCell = GetCellLocationInDirection(m_robot.CurrentCellLocation, m_robot.CurrentlyFacing);
 
-        // Is the cell valid one unit away from current cell (in the direction the robot is facing)
-        // Could create GetNeighbouringCell(Facing f)
+        if(IsValidCell(neighbouringCell.X, neighbouringCell.Y))
+        {
+            // Move
+        }
 
-        // If valid move        
+        // If valid move
+    }
+
+    public CellLocation GetCellLocationInDirection(CellLocation currentLocation, Robot.Direction direction)
+    {
+        CellLocation newLocation = currentLocation;
+
+        switch(direction)
+        {
+            case Robot.Direction.North:
+            newLocation.Y++;
+            break;
+
+            case Robot.Direction.East:
+            newLocation.X++;
+            break;
+
+            case Robot.Direction.South:
+            newLocation.Y--;
+            break;
+
+            case Robot.Direction.West:
+            newLocation.X--;
+            break;
+        }
+
+        return newLocation;
     }
 
     public bool IsValidCell(int x, int y)

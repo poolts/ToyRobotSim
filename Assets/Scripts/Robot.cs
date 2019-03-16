@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Robot : MonoBehaviour
 {
-    public enum Facing
+    public enum Direction
     {
         North,
         East,
@@ -12,7 +12,9 @@ public class Robot : MonoBehaviour
         West
     }
 
-    public Facing CurrentlyFacing { get; set; }
+    public Direction CurrentlyFacing { get; set; }
+
+    public Table.CellLocation CurrentCellLocation { get; set; }
 
     public bool IsPlaced { get; set; }
 
