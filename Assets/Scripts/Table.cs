@@ -16,7 +16,7 @@ public class Table : MonoBehaviour
     {
         Generate(5);
 
-        Place(2, 2, 1);
+        Place(2, 2, Robot.Facing.North);
     }
 
     public void Generate(int tableSize)
@@ -47,6 +47,11 @@ public class Table : MonoBehaviour
 
             m_robot.IsPlaced = true; 
         }
+    }
+
+    public void Move()
+    {
+
     }
 
     public bool IsValidCell(int x, int y)
