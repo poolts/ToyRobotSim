@@ -28,7 +28,7 @@ public class Table : MonoBehaviour
     {
         Generate(5);
 
-        Place(2, 2, Robot.Direction.North);
+        Place(2, 2, Robot.Direction.South);
 
         Move();
     }
