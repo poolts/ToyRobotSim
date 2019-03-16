@@ -57,9 +57,7 @@ public class Simulator : MonoBehaviour
 
                 if(m_table.IsValidCell(x, y))
                 {
-                    m_robot.CurrentCellLocation = new Table.CellLocation(x, y);
-
-                    m_robot.transform.position = m_table.GetCellPosition(x, y);
+                    m_robot.CurrentCell = m_table.GetCell(x, y);
 
                     m_robot.CurrentlyFacing = direction;
 
@@ -70,12 +68,11 @@ public class Simulator : MonoBehaviour
             case "MOVE":
                 if(m_robot.IsPlaced)
                 {
-                    Table.CellLocation neighbouringCell = m_table.GetCellLocationInDirection(m_robot.CurrentCellLocation, m_robot.CurrentlyFacing);
+                    Table.Cell neighbouringCell = m_table.GetCellInDirection(m_robot.CurrentCell, m_robot.CurrentlyFacing);
 
                     if(m_table.IsValidCell(neighbouringCell.X, neighbouringCell.Y))
                     {
-                        m_robot.CurrentCellLocation = neighbouringCell; 
-                        m_robot.transform.position =  m_table.GetCellPosition(neighbouringCell.X, neighbouringCell.Y);
+                        m_robot.CurrentCell = neighbouringCell; 
                     }
                 }
             break;

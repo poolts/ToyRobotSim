@@ -49,7 +49,21 @@ public class Robot : MonoBehaviour
         }
     }
 
-    public Table.CellLocation CurrentCellLocation { get; set; }
+    Table.Cell m_currentCell;
+
+    public Table.Cell CurrentCell 
+    { 
+        get
+        { 
+            return m_currentCell;
+        } 
+        set
+        {
+            m_currentCell = value;
+
+            transform.position = value.WorldPosition;
+        }
+    }
 
     public bool IsPlaced { get; set; }
 
@@ -73,7 +87,7 @@ public class Robot : MonoBehaviour
     {        
         if(IsPlaced)
         {
-            Debug.Log(CurrentCellLocation.X + "," + CurrentCellLocation.Y + "," + CurrentlyFacing);
+            Debug.Log(CurrentCell + "," + CurrentlyFacing);
         }
     }
 }
