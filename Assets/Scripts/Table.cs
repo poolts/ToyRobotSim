@@ -5,9 +5,6 @@ using UnityEngine;
 public class Table : MonoBehaviour
 {
     [SerializeField]
-    Robot m_robot = null;
-
-    [SerializeField]
     GameObject m_cellPrefab = null;
 
     Transform[,] m_cells;
@@ -22,31 +19,6 @@ public class Table : MonoBehaviour
             X = x;
             Y = y;
         }
-    }
-
-    public void Start()
-    {
-        Generate(5);
-
-        Place(2, 2, Robot.Direction.North);
-
-        //Move();
-
-        m_robot.Left();
-        //E
-        m_robot.Report();
-        
-        m_robot.Left();
-        //S
-        m_robot.Report();
-
-        m_robot.Left();
-        //W
-        m_robot.Report();
-
-        m_robot.Left();
-        //N
-        m_robot.Report();
     }
 
     public void Generate(int tableSize)
@@ -66,31 +38,9 @@ public class Table : MonoBehaviour
         }
     }
 
-    public void Place(int x, int y, Robot.Direction facing)
+    public Vector3 GetCellPosition(int x, int y)
     {
-        // If the cell is valid (i.e. not off the table then place the robot)
-        if(IsValidCell(x, y))
-        {
-            m_robot.transform.position = m_cells[x, y].position + (Vector3.up * 0.3f);
-
-            m_robot.CurrentlyFacing = facing;
-
-            m_robot.IsPlaced = true; 
-        }
-    }
-
-    public void Move()
-    {
-        if(m_robot.IsPlaced)
-        {
-            CellLocation neighbouringCell = GetCellLocationInDirection(m_robot.CurrentCellLocation, m_robot.CurrentlyFacing);
-
-            if(IsValidCell(neighbouringCell.X, neighbouringCell.Y))
-            {
-                m_robot.CurrentCellLocation = neighbouringCell; 
-                m_robot.transform.position = m_cells[neighbouringCell.X, neighbouringCell.Y].position;
-            }
-        }
+        return m_cells[x,y].position;
     }
 
     public CellLocation GetCellLocationInDirection(CellLocation currentLocation, Robot.Direction direction)
