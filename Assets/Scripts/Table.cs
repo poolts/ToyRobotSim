@@ -69,7 +69,7 @@ public class Table : MonoBehaviour
     public void Place(int x, int y, Robot.Direction facing)
     {
         // If the cell is valid (i.e. not off the table then place the robot)
-        if(!m_robot.IsPlaced && IsValidCell(x, y))
+        if(IsValidCell(x, y))
         {
             m_robot.transform.position = m_cells[x, y].position + (Vector3.up * 0.3f);
 
