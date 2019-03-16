@@ -65,12 +65,15 @@ public class Table : MonoBehaviour
 
     public void Move()
     {
-        CellLocation neighbouringCell = GetCellLocationInDirection(m_robot.CurrentCellLocation, m_robot.CurrentlyFacing);
-
-        if(IsValidCell(neighbouringCell.X, neighbouringCell.Y))
+        if(m_robot.IsPlaced)
         {
-            m_robot.CurrentCellLocation = neighbouringCell; 
-            m_robot.transform.position = m_cells[neighbouringCell.X, neighbouringCell.Y].position;
+            CellLocation neighbouringCell = GetCellLocationInDirection(m_robot.CurrentCellLocation, m_robot.CurrentlyFacing);
+
+            if(IsValidCell(neighbouringCell.X, neighbouringCell.Y))
+            {
+                m_robot.CurrentCellLocation = neighbouringCell; 
+                m_robot.transform.position = m_cells[neighbouringCell.X, neighbouringCell.Y].position;
+            }
         }
     }
 

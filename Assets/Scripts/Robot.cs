@@ -77,6 +77,6 @@ public class Robot : MonoBehaviour
 
     public void Report()
     {
-        Debug.Log(CurrentCellLocation);
+        Debug.Log(CurrentCellLocation.X + "," + CurrentCellLocation.Y + "," + CurrentlyFacing);
     }
 }
