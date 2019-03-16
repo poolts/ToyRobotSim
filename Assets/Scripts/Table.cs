@@ -29,6 +29,8 @@ public class Table : MonoBehaviour
         Generate(5);
 
         Place(2, 2, Robot.Direction.North);
+
+        Move();
     }
 
     public void Generate(int tableSize)
@@ -67,10 +69,9 @@ public class Table : MonoBehaviour
 
         if(IsValidCell(neighbouringCell.X, neighbouringCell.Y))
         {
-            // Move
+            m_robot.CurrentCellLocation = neighbouringCell; 
+            m_robot.transform.position = m_cells[neighbouringCell.X, neighbouringCell.Y].position;
         }
-
-        // If valid move
     }
 
     public CellLocation GetCellLocationInDirection(CellLocation currentLocation, Robot.Direction direction)

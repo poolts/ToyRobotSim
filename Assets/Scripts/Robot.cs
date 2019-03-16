@@ -42,9 +42,6 @@ public class Robot : MonoBehaviour
 
     public void Report()
     {
-        if(Reported != null)
-        {
-            Reported();
-        }
+        Debug.Log(CurrentCellLocation);
     }
 }
