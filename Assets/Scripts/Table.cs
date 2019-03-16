@@ -5,7 +5,7 @@ using UnityEngine;
 public class Table : MonoBehaviour
 {
     [SerializeField]
-    Transform m_robotTrans = null;
+    Robot m_robot = null;
 
     [SerializeField]
     GameObject m_cellPrefab = null;
@@ -36,12 +36,16 @@ public class Table : MonoBehaviour
         }
     }
 
-    public void Place(int x, int y, int f)
+    public void Place(int x, int y, Robot.Facing facing)
     {
         // If the cell is valid (i.e. not off the table then place the robot)
         if(IsValidCell(x, y))
         {
-            m_robotTrans.transform.position = m_cells[x, y].position;
+            m_robot.transform.position = m_cells[x, y].position;
+
+            m_robot.CurrentlyFacing = facing;
+
+            m_robot.IsPlaced = true; 
         }
     }
 
