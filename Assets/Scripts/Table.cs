@@ -38,10 +38,15 @@ public class Table : MonoBehaviour
 
     public void Place(int x, int y, int f)
     {
-        // Then place
-        if(x >= 0 && x < m_cells.GetLength(0) && y >= 0 && y < m_cells.GetLength(1))
+        // If the cell is valid (i.e. not off the table then place the robot)
+        if(IsValidCell(x, y))
         {
             m_robotTrans.transform.position = m_cells[x, y].position;
         }
+    }
+
+    public bool IsValidCell(int x, int y)
+    {
+        return x >= 0 && x < m_cells.GetLength(0) && y >= 0 && y < m_cells.GetLength(1);
     }
 }
