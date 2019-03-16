@@ -75,6 +75,11 @@ public class Table : MonoBehaviour
         return newCell;
     }
 
+    public bool IsValidCell(Cell cell)
+    {
+        return IsValidCell(cell.X, cell.Y);
+    }
+
     public bool IsValidCell(int x, int y)
     {
         return x >= 0 && x < m_cells.GetLength(0) && y >= 0 && y < m_cells.GetLength(1);

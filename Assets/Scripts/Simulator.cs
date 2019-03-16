@@ -65,7 +65,7 @@ public class Simulator : MonoBehaviour
             {
                 Table.Cell neighbouringCell = m_table.GetCellInDirection(m_robot.CurrentCell, m_robot.CurrentlyFacing);
 
-                if(m_table.IsValidCell(neighbouringCell.X, neighbouringCell.Y))
+                if(m_table.IsValidCell(neighbouringCell))
                 {
                     m_robot.CurrentCell = neighbouringCell; 
                 }         
