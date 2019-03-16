@@ -51,7 +51,12 @@ public class Table : MonoBehaviour
 
     public void Move()
     {
+        // Get robots current cell
 
+        // Is the cell valid one unit away from current cell (in the direction the robot is facing)
+        // Could create GetNeighbouringCell(Facing f)
+
+        // If valid move        
     }
 
     public bool IsValidCell(int x, int y)

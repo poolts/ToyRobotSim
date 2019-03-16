@@ -7,8 +7,8 @@ public class Robot : MonoBehaviour
     public enum Facing
     {
         North,
-        South,
         East,
+        South,
         West
     }
 
@@ -16,8 +16,33 @@ public class Robot : MonoBehaviour
 
     public bool IsPlaced { get; set; }
 
+    public System.Action Moved { get; set; }
+
+    public System.Action Reported { get; set; }
+
+    public void Move()
+    {
+        if(Moved != null)
+        {
+            Moved();
+        }
+    }
+
+    public void Left()
+    {
+        CurrentlyFacing--;
+    }
+
+    public void Right()
+    {
+        CurrentlyFacing++;
+    }
+
     public void Report()
     {
-
+        if(Reported != null)
+        {
+            Reported();
+        }
     }
 }
