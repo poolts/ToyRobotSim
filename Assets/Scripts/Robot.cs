@@ -67,16 +67,25 @@ public class Robot : MonoBehaviour
 
     public void Left()
     {
-        CurrentlyFacing--;
+        if(IsPlaced)
+        {
+            CurrentlyFacing = CurrentlyFacing == Direction.North ? Direction.West : CurrentlyFacing - 1;
+        }
     }
 
     public void Right()
     {
-        CurrentlyFacing++;
+        if(IsPlaced)
+        {
+            CurrentlyFacing = CurrentlyFacing == Direction.West ? Direction.North : CurrentlyFacing + 1;
+        }
     }
 
     public void Report()
-    {
-        Debug.Log(CurrentCellLocation.X + "," + CurrentCellLocation.Y + "," + CurrentlyFacing);
+    {        
+        if(IsPlaced)
+        {
+            Debug.Log(CurrentCellLocation.X + "," + CurrentCellLocation.Y + "," + CurrentlyFacing);
+        }
     }
 }

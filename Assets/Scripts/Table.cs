@@ -28,9 +28,25 @@ public class Table : MonoBehaviour
     {
         Generate(5);
 
-        Place(2, 2, Robot.Direction.South);
+        Place(2, 2, Robot.Direction.North);
 
-        Move();
+        //Move();
+
+        m_robot.Left();
+        //E
+        m_robot.Report();
+        
+        m_robot.Left();
+        //S
+        m_robot.Report();
+
+        m_robot.Left();
+        //W
+        m_robot.Report();
+
+        m_robot.Left();
+        //N
+        m_robot.Report();
     }
 
     public void Generate(int tableSize)
@@ -53,9 +69,9 @@ public class Table : MonoBehaviour
     public void Place(int x, int y, Robot.Direction facing)
     {
         // If the cell is valid (i.e. not off the table then place the robot)
-        if(IsValidCell(x, y))
+        if(!m_robot.IsPlaced && IsValidCell(x, y))
         {
-            m_robot.transform.position = m_cells[x, y].position;
+            m_robot.transform.position = m_cells[x, y].position + (Vector3.up * 0.3f);
 
             m_robot.CurrentlyFacing = facing;
 
