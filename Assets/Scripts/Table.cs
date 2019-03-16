@@ -27,7 +27,11 @@ public class Table : MonoBehaviour
         {
             for(int j = 0; j < m_cells.GetLength(1); j++)
             {
-                m_cells[i, j] = GameObject.Instantiate(m_cellPrefab, new Vector3(j, 0, i), Quaternion.identity).transform;
+                Transform cellTrans = GameObject.Instantiate(m_cellPrefab, new Vector3(j, 0, i), Quaternion.identity).transform;
+
+                cellTrans.parent = transform;
+
+                m_cells[i, j] = cellTrans;
             }
         }
     }
