@@ -65,7 +65,16 @@ public class Robot : MonoBehaviour
         }
     }
 
-    public bool IsPlaced { get; set; }
+    public bool IsPlaced { get; private set; }
+
+    public void Place(Table.Cell cell, Direction facing)
+    {
+        CurrentCell = cell;
+
+        CurrentlyFacing = facing;
+
+        IsPlaced = true; 
+    }
 
     public void Left()
     {

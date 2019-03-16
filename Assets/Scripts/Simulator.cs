@@ -57,11 +57,7 @@ public class Simulator : MonoBehaviour
 
                 if(m_table.IsValidCell(x, y))
                 {
-                    m_robot.CurrentCell = m_table.GetCell(x, y);
-
-                    m_robot.CurrentlyFacing = direction;
-
-                    m_robot.IsPlaced = true; 
+                    m_robot.Place(m_table.GetCell(x, y), direction);
                 }
             break;
 
