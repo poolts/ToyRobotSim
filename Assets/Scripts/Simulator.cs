@@ -63,7 +63,7 @@ public class Simulator : MonoBehaviour
        {
             if(methodName == "MOVE")
             {
-                Table.Cell neighbouringCell = table.GetCellInDirection(robot.CurrentCell, robot.CurrentlyFacing);
+                Table.Cell neighbouringCell = table.GetNeighbouringCellInDirection(robot.CurrentCell, robot.CurrentlyFacing);
 
                 if(table.IsValidCell(neighbouringCell))
                 {

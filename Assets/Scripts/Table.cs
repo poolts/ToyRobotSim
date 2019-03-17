@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A table is a collection of cells (in a grid layout).
+/// </summary>
 public class Table : MonoBehaviour
 {
     [SerializeField]
@@ -9,6 +12,10 @@ public class Table : MonoBehaviour
 
     Cell[,] m_cells;
 
+    /// <summary>
+    /// Each cell contains an X and Y coordinate on the table (which is essentially an index into the 2D array)
+    /// and a world position of where it exists in the scene.
+    /// </summary>
     public struct Cell
     {
         public int X { get; private set; }
@@ -23,12 +30,17 @@ public class Table : MonoBehaviour
             WorldPosition = worldPos;
         }
 
+        // Override the ToString method to have a neat format when logging a cell.
         public override string ToString()
         {
             return X + "," + Y;
         }
     }
 
+    /// <summary>
+    /// Generates the table by creating the cells and instanting the cell prefabs.
+    /// </summary>
+    /// <param name="tableSize"></param>
     public void Generate(int tableSize)
     {
         m_cells = new Cell[tableSize, tableSize];
@@ -39,6 +51,8 @@ public class Table : MonoBehaviour
             {
                 Vector3 cellPosition = new Vector3(j, 0, i);
 
+                // Checks if the prefab exists. This is used to protect against null errors
+                // when running the editor unit tests (as the prefab only exists at run-time).
                 if(m_cellPrefab != null)
                 {
                     Transform cellTrans = GameObject.Instantiate(m_cellPrefab, cellPosition, Quaternion.identity).transform;
@@ -51,12 +65,25 @@ public class Table : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets a cell from the table.
+    /// </summary>
+    /// <param name="x">The X coordinate of the requested cell.</param>
+    /// <param name="y">The Y coordinate of the requested cell.</param>
+    /// <returns>The cell at the X and Y coordinates.</returns>
     public Cell GetCell(int x, int y)
     {
         return m_cells[x, y];
     }
 
-    public Cell GetCellInDirection(Cell currentCell, Robot.Direction direction)
+    /// <summary>
+    /// Gets the neighbouring cell in a given direction. Will return the current cell
+    /// if the cell is off the table.
+    /// </summary>
+    /// <param name="currentCell">The cell we want to start at when looking for a neighbour.</param>
+    /// <param name="direction">The direction we want to get a neighbour in.</param>
+    /// <returns></returns>
+    public Cell GetNeighbouringCellInDirection(Cell currentCell, Robot.Direction direction)
     {
         Cell newCell = currentCell;
 
@@ -80,21 +107,40 @@ public class Table : MonoBehaviour
         return newCell;
     }
 
+    /// <summary>
+    /// Returns if a cell is valid. A cell is valid if it's X and Y coordinates are contained within the table.
+    /// </summary>
+    /// <param name="cell">The cell to validate.</param>
+    /// <returns>If the cell is valid.</returns>
     public bool IsValidCell(Cell cell)
     {
         return IsValidCell(cell.X, cell.Y);
     }
 
+    /// <summary>
+    /// Returns if a cell is valid. A cell is valid if it's X and Y coordinates are contained within the table.
+    /// </summary>
+    /// <param name="x">The X coordinate of the cell to validate.</param>
+    /// <param name="y">The Y coordinate of the cell to validate.</param>
+    /// <returns>If the cell is valid.</returns>
     public bool IsValidCell(int x, int y)
     {
         return x >= 0 && x < m_cells.GetLength(0) && y >= 0 && y < m_cells.GetLength(1);
     }
 
+    /// <summary>
+    /// Gets the width of the table.
+    /// </summary>
+    /// <returns>The width of the table.</returns>
     public int GetTableWidth()
     {
         return m_cells.GetLength(0);
     }
 
+    /// <summary>
+    /// Gets the length of the table.
+    /// </summary>
+    /// <returns>The length of the table.</returns>
     public int GetTableLength()
     {
         return m_cells.GetLength(1);
