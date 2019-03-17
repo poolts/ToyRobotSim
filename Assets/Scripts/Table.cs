@@ -37,11 +37,16 @@ public class Table : MonoBehaviour
         {
             for(int j = 0; j < m_cells.GetLength(1); j++)
             {
-                Transform cellTrans = GameObject.Instantiate(m_cellPrefab, new Vector3(j, 0, i), Quaternion.identity).transform;
+                Vector3 cellPosition = new Vector3(j, 0, i);
 
-                cellTrans.parent = transform;
+                if(m_cellPrefab != null)
+                {
+                    Transform cellTrans = GameObject.Instantiate(m_cellPrefab, cellPosition, Quaternion.identity).transform;
 
-                m_cells[i, j] = new Cell(i, j, cellTrans.position);
+                    cellTrans.parent = transform;
+                }
+
+                m_cells[i, j] = new Cell(i, j, cellPosition);
             }
         }
     }

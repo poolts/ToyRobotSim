@@ -17,10 +17,10 @@ public class Simulator : MonoBehaviour
     {
         m_table.Generate(5);
 
-        RunCommands(m_commandText.text);
+        RunCommands(m_commandText.text, m_robot, m_table);
     }
 
-    public void RunCommands(string commandText)
+    public void RunCommands(string commandText, Robot robot, Table table)
     {
         string[] commands = commandText.Split(new string[] {"\n"}, System.StringSplitOptions.None);
 
@@ -41,11 +41,11 @@ public class Simulator : MonoBehaviour
                }
             }
 
-            RunCommand(methodName, args);
+            RunCommand(methodName, args, robot, table);
         }
     }
 
-    public void RunCommand(string methodName, string[] args)
+    public void RunCommand(string methodName, string[] args, Robot robot, Table table)
     {
        if(methodName == "PLACE")
        {
@@ -54,33 +54,33 @@ public class Simulator : MonoBehaviour
 
             Robot.Direction direction = (Robot.Direction)System.Enum.Parse(typeof(Robot.Direction), args[2], true);
 
-            if(m_table.IsValidCell(x, y))
+            if(table.IsValidCell(x, y))
             {
-                m_robot.Place(m_table.GetCell(x, y), direction);
+                robot.Place(table.GetCell(x, y), direction);
             }
        }
-       else if(m_robot.IsPlaced)
+       else if(robot.IsPlaced)
        {
             if(methodName == "MOVE")
             {
-                Table.Cell neighbouringCell = m_table.GetCellInDirection(m_robot.CurrentCell, m_robot.CurrentlyFacing);
+                Table.Cell neighbouringCell = table.GetCellInDirection(robot.CurrentCell, robot.CurrentlyFacing);
 
-                if(m_table.IsValidCell(neighbouringCell))
+                if(table.IsValidCell(neighbouringCell))
                 {
-                    m_robot.CurrentCell = neighbouringCell; 
+                    robot.CurrentCell = neighbouringCell; 
                 }         
             }
             else if(methodName == "LEFT")
             {
-                m_robot.Left();
+                robot.Left();
             }
             else if(methodName == "RIGHT")
             {
-                m_robot.Right();
+                robot.Right();
             }
             else if(methodName == "REPORT")
             {
-                 m_robot.Report();
+                 robot.Report();
             }
        }
     }
