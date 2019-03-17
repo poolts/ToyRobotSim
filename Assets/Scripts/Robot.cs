@@ -61,7 +61,7 @@ public class Robot : MonoBehaviour
         {
             m_currentCell = value;
 
-            transform.position = value.WorldPosition;
+            transform.position = value.WorldPosition + new Vector3(0f, transform.localScale.y * 0.5f, 0f);
         }
     }
 
