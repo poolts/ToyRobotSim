@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A robot can be placed and moved around a table.
+/// </summary>
 public class Robot : MonoBehaviour
 {
     public enum Direction
@@ -45,6 +48,7 @@ public class Robot : MonoBehaviour
                 break;
             }
 
+            // Rotate the robot's rotation dependant on the direction value set.
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, yRotation, transform.rotation.eulerAngles.z);
         }
     }
@@ -61,12 +65,19 @@ public class Robot : MonoBehaviour
         {
             m_currentCell = value;
 
+            // Set the robot's world position to the cell's world position.
+            // Add an offset of half the height of the robot to ensure it's standing on the cell.
             transform.position = value.WorldPosition + new Vector3(0f, transform.localScale.y * 0.5f, 0f);
         }
     }
 
     public bool IsPlaced { get; private set; }
 
+    /// <summary>
+    /// Places the robot on the cell.
+    /// </summary>
+    /// <param name="cell">The cell to place the robot on.</param>
+    /// <param name="facing">The direction the robot should face.</param>
     public void Place(Table.Cell cell, Direction facing)
     {
         CurrentCell = cell;
@@ -76,22 +87,33 @@ public class Robot : MonoBehaviour
         IsPlaced = true; 
     }
 
+    /// <summary>
+    /// Turns the robot to the left.
+    /// </summary>
     public void Left()
     {
         if(IsPlaced)
         {
+            // Wrap around to the west if the robot is currently facing north.
             CurrentlyFacing = CurrentlyFacing == Direction.North ? Direction.West : CurrentlyFacing - 1;
         }
     }
 
+    /// <summary>
+    /// Turns the robot to the right.
+    /// </summary>
     public void Right()
     {
         if(IsPlaced)
         {
+            // Wrap around to the north if the robot is currently facing west.
             CurrentlyFacing = CurrentlyFacing == Direction.West ? Direction.North : CurrentlyFacing + 1;
         }
     }
 
+    /// <summary>
+    /// Reports the report's current cell (X and Y coordinates) and the direction it is currently facing.
+    /// </summary>
     public void Report()
     {        
         if(IsPlaced)
