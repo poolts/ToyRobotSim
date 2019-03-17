@@ -5,13 +5,13 @@ using UnityEngine;
 public class Simulator : MonoBehaviour
 {
     [SerializeField]
-    Table m_table;
+    Table m_table = null;
 
     [SerializeField]
-    Robot m_robot;
+    Robot m_robot = null;
 
     [SerializeField]
-    TextAsset m_commandText;
+    TextAsset m_commandText = null;
 
     public void Start()
     {
