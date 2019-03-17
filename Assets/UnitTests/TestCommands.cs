@@ -14,6 +14,7 @@ namespace Tests
 
         Table m_table;
 
+        // Initialises a test. Each time a test is run a simulator, robot and table are newly created.
         [SetUp]
         public void Init()
         {
