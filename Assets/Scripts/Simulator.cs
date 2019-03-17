@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A simualator processes commands and controls the the robot and table accordingly. 
+/// </summary>
 public class Simulator : MonoBehaviour
 {
     [SerializeField]
@@ -13,6 +16,9 @@ public class Simulator : MonoBehaviour
     [SerializeField]
     TextAsset m_commandText = null;
 
+    /// <summary>
+    /// Generates a table and runs the commands found in the command text file.
+    /// </summary>
     public void Start()
     {
         m_table.Generate(5);
@@ -20,10 +26,18 @@ public class Simulator : MonoBehaviour
         RunCommands(m_commandText.text, m_robot, m_table);
     }
 
+    /// <summary>
+    /// Runs a set of commands provided.
+    /// </summary>
+    /// <param name="commandText">The set of commands presented as a string.</param>
+    /// <param name="robot">The robot in the simulation.</param>
+    /// <param name="table">The table in the simulation.</param>
     public void RunCommands(string commandText, Robot robot, Table table)
     {
+        // Commands are split by line (as formatted in the text file).
         string[] commands = commandText.Split(new string[] {"\n"}, System.StringSplitOptions.None);
 
+        // Iterate through each command and split it into the method name and an arguments provided
         foreach(string command in commands)
         {
             string[] line = command.Split();
@@ -37,6 +51,7 @@ public class Simulator : MonoBehaviour
 
                if(line.Length > 1)
                {
+                    // If arguments are provided split them by a comma
                    args = line[1].Split(',');
                }
             }
@@ -45,6 +60,13 @@ public class Simulator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Runs a provided command.
+    /// </summary>
+    /// <param name="methodName">The name of the method.</param>
+    /// <param name="args">The arguments with the provided method.</param>
+    /// <param name="robot">The robot in the simulation.</param>
+    /// <param name="table">The table in the simulation.</param>
     public void RunCommand(string methodName, string[] args, Robot robot, Table table)
     {
        if(methodName == "PLACE")
