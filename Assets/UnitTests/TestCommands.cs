@@ -28,11 +28,35 @@ namespace Tests
         }
 
         [Test]
-        public void Robot_Reports_Correctly_After_Moving()
+        public void Robot_Reports_Correctly_After_Runnning_Command_Set()
+        {
+            m_simulator.RunCommands("PLACE 0,0,EAST\nMOVE\nMOVE\nLEFT\nMOVE\nLEFT\nMOVE\nRIGHT\nRIGHT\nMOVE\nREPORT", m_robot, m_table);
+
+            LogAssert.Expect(LogType.Log, "2,1,East");
+        }
+
+        [Test]
+        public void Robot_Reports_Correctly_After_Running_Multiple_Command_Sets()
         {
             m_simulator.RunCommands("PLACE 1,2,EAST\nMOVE\nMOVE\nLEFT\nMOVE\nREPORT", m_robot, m_table);
 
             LogAssert.Expect(LogType.Log, "3,3,North");
+
+            m_simulator.RunCommands("LEFT\nLEFT\nMOVE\nMOVE\nREPORT", m_robot, m_table);
+
+            LogAssert.Expect(LogType.Log, "3,1,South");
+        }
+
+        [Test]
+        public void Robot_Reports_Correctly_After_Being_Placed_More_Than_Once()
+        {
+            m_simulator.RunCommands("PLACE 0,0,NORTH\nREPORT", m_robot, m_table);
+
+            LogAssert.Expect(LogType.Log, "0,0,North");
+
+            m_simulator.RunCommands("PLACE 2,1,EAST\nREPORT", m_robot, m_table);
+
+            LogAssert.Expect(LogType.Log, "2,1,East");
         }
 
         [Test]
