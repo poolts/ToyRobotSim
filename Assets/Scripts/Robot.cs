@@ -66,8 +66,8 @@ public class Robot : MonoBehaviour
             m_currentCell = value;
 
             // Set the robot's world position to the cell's world position.
-            // Add an offset of half the height of the robot to ensure it's standing on the cell.
-            transform.position = value.WorldPosition + new Vector3(0f, transform.localScale.y * 0.5f, 0f);
+            // Add an offset to ensure it's standing on the cell.
+            transform.position = value.WorldPosition + new Vector3(0f, 0.25f, 0f);
         }
     }
 
@@ -84,7 +84,9 @@ public class Robot : MonoBehaviour
 
         CurrentlyFacing = facing;
 
-        IsPlaced = true; 
+        IsPlaced = true;
+
+        transform.gameObject.SetActive(true);
     }
 
     /// <summary>
