@@ -40,7 +40,8 @@ public class Table : MonoBehaviour
     /// <summary>
     /// Generates the table by creating the cells and instanting the cell prefabs.
     /// </summary>
-    /// <param name="tableSize"></param>
+    /// <param name="tableWidth">The width of the table (the maximum X coordinate).</param>
+    /// <param name="tableLength">The length of the table (the maximum Y coordinate).</param>
     public void Generate(int tableWidth, int tableLength)
     {
         m_cells = new Cell[tableWidth, tableLength];
