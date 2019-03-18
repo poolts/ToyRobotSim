@@ -24,7 +24,7 @@ namespace Tests
 
             m_table = new GameObject("Table").AddComponent<Table>();
 
-            m_table.Generate(5);   
+            m_table.Generate(5, 5);   
         }
 
         [Test]

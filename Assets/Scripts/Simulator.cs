@@ -21,7 +21,7 @@ public class Simulator : MonoBehaviour
     /// </summary>
     public void Start()
     {
-        m_table.Generate(5);
+        m_table.Generate(5, 5);
 
         RunCommands(m_commandText.text, m_robot, m_table);
     }

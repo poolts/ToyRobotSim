@@ -41,15 +41,15 @@ public class Table : MonoBehaviour
     /// Generates the table by creating the cells and instanting the cell prefabs.
     /// </summary>
     /// <param name="tableSize"></param>
-    public void Generate(int tableSize)
+    public void Generate(int tableWidth, int tableLength)
     {
-        m_cells = new Cell[tableSize, tableSize];
+        m_cells = new Cell[tableWidth, tableLength];
 
         for(int i = 0; i < m_cells.GetLength(0); i++)
         {
             for(int j = 0; j < m_cells.GetLength(1); j++)
             {
-                Vector3 cellPosition = new Vector3(j, 0, i);
+                Vector3 cellPosition = new Vector3(i, 0, j);
 
                 // Checks if the prefab exists. This is used to protect against null errors
                 // when running the editor unit tests (as the prefab only exists at run-time).
