@@ -80,6 +80,10 @@ public class Simulator : MonoBehaviour
             {
                 robot.Place(table.GetCell(x, y), direction);
             }
+            else
+            {
+                Debug.LogError("Tried to place robot at " + x + "," + y + " which is invalid");
+            }
        }
        else if(robot.IsPlaced)
        {

@@ -142,5 +142,16 @@ namespace Tests
 
             Assert.AreEqual(m_robot.CurrentCell, m_table.GetCell(0, 0));
         }
+
+        [Test]
+        public void Simulator_Should_Not_Place_Robot_Invalid_Cell()
+        {
+            int cellX = -1;
+            int cellY = -1;
+
+            m_simulator.RunCommands("PLACE " + cellX + "," + cellY + ",NORTH", m_robot, m_table);
+
+            LogAssert.Expect(LogType.Error, "Tried to place robot at " + cellX + "," + cellY + " which is invalid");
+        }
     }
 }
