@@ -99,6 +99,10 @@ public class Robot : MonoBehaviour
             // Wrap around to the west if the robot is currently facing north.
             CurrentlyFacing = CurrentlyFacing == Direction.North ? Direction.West : CurrentlyFacing - 1;
         }
+        else
+        {
+            Debug.LogError("Robot cannot turn left until it has been placed on the table");
+        }
     }
 
     /// <summary>
@@ -111,6 +115,10 @@ public class Robot : MonoBehaviour
             // Wrap around to the north if the robot is currently facing west.
             CurrentlyFacing = CurrentlyFacing == Direction.West ? Direction.North : CurrentlyFacing + 1;
         }
+        else
+        {
+            Debug.LogError("Robot cannot turn right until it has been placed on the table");            
+        }
     }
 
     /// <summary>
@@ -121,6 +129,10 @@ public class Robot : MonoBehaviour
         if(IsPlaced)
         {
             Debug.Log(CurrentCell + "," + CurrentlyFacing);
+        }
+        else
+        {
+            Debug.LogError("Robot cannot report until it has been placed on the table");
         }
     }
 }

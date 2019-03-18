@@ -112,17 +112,19 @@ namespace Tests
         }
 
         [Test]
-        public void Robot_Left_Before_Place_Should_Be_Ignored()
+        public void Robot_Left_Before_Place_Should_Be_Ignored_And_Log_Error()
         {
             Robot.Direction directionToFace = Robot.Direction.North;
 
             m_robot.Left();
             
             Assert.AreEqual(m_robot.CurrentlyFacing, directionToFace);
+
+            LogAssert.Expect(LogType.Error, "Robot cannot turn left until it has been placed on the table");
         }
 
         [Test]
-        public void Robot_Right_Before_Place_Should_Be_Ignored()
+        public void Robot_Right_Before_Place_Should_Be_Ignored_And_Log_Error()
         {
             Robot.Direction directionToFace = Robot.Direction.North;
 
@@ -131,6 +133,8 @@ namespace Tests
             m_robot.Right();
             
             Assert.AreEqual(m_robot.CurrentlyFacing, directionToFace);
+
+            LogAssert.Expect(LogType.Error, "Robot cannot turn right until it has been placed on the table");
         }
 
         [Test]
@@ -141,6 +145,14 @@ namespace Tests
             m_simulator.RunCommands("MOVE", m_robot, m_table);
 
             Assert.AreEqual(m_robot.CurrentCell, m_table.GetCell(0, 0));
+        }
+
+        [Test]
+        public void Robot_Report_Before_Place_Should_Log_Error()
+        {
+            m_robot.Report();
+
+            LogAssert.Expect(LogType.Error, "Robot cannot report until it has been placed on the table");
         }
 
         [Test]
