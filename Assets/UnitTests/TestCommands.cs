@@ -7,7 +7,7 @@ using UnityEngine.TestTools;
 namespace Tests
 {
     public class TestCommands
-    {
+    {/*
         Simulator m_simulator;
 
         Robot m_robot;
@@ -164,6 +164,6 @@ namespace Tests
             m_simulator.RunCommands("PLACE " + cellX + "," + cellY + ",NORTH", m_robot, m_table);
 
             LogAssert.Expect(LogType.Error, "Tried to place robot at " + cellX + "," + cellY + " which is invalid");
-        }
+        }*/
     }
 }

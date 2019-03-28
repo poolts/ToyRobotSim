@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -16,6 +17,22 @@ public class Simulator : MonoBehaviour
     [SerializeField]
     TextAsset m_commandText = null;
 
+    public struct Command
+    {
+        public string Name;
+        public Dictionary<string, string> Arguments;
+
+        public Command(string name) : this (name, new Dictionary<string, string>())
+        {
+        }
+
+        public Command(string name, Dictionary<string, string> args)
+        {
+            Name = name;
+            Arguments = args;
+        }
+    }
+
     /// <summary>
     /// Generates a table and runs the commands found in the command text file.
     /// </summary>
@@ -23,7 +40,20 @@ public class Simulator : MonoBehaviour
     {
         m_table.Generate(5, 5);
 
-        RunCommands(m_commandText.text, m_robot, m_table);
+        List<Command> commands = new List<Command>()
+        {
+            new Command("PLACE",
+                new Dictionary<string, string> {
+                    { "X", "1" },
+                    { "Y", "1" },
+                    { "Z", "1" },
+                    { "FACING", "North" }
+                }
+            ),
+            new Command("REPORT")
+        };
+
+        RunCommands(commands, m_robot, m_table);
     }
 
     /// <summary>
@@ -32,31 +62,46 @@ public class Simulator : MonoBehaviour
     /// <param name="commandText">The set of commands presented as a string.</param>
     /// <param name="robot">The robot in the simulation.</param>
     /// <param name="table">The table in the simulation.</param>
-    public void RunCommands(string commandText, Robot robot, Table table)
+    /*public void RunCommands(string commandText, Robot robot, Table table)
     {
+        List<Command> commands = new List<Command>();
+
         // Commands are split by line (as formatted in the text file).
-        string[] commands = commandText.Split(new string[] {"\n"}, System.StringSplitOptions.None);
+        string[] commandLines = commandText.Split(new string[] {"\n"}, System.StringSplitOptions.None);
 
         // Iterate through each command and split it into the method name and an arguments provided
-        foreach(string command in commands)
+        foreach(string line in commandLines)
         {
-            string[] line = command.Split();
+            string[] command = line.Split();
 
-            string methodName = "";
-            string[] args = new string[] {};
+            string name = "";
+            Dictionary<string, string> args = new Dictionary<string, string>();
 
-            if(line.Length > 0)
+            if(command.Length > 0)
             {
-               methodName = line[0];
+               name = command[0];
 
-               if(line.Length > 1)
+               if(command.Length > 1)
                {
                     // If arguments are provided split them by a comma
-                   args = line[1].Split(',');
+                   args = command[1].Split(',').ToDictionary(v => v, v => item.Value);
                }
             }
 
-            RunCommand(methodName, args, robot, table);
+            if(!string.IsNullOrEmpty(name))
+            {
+                commands.Add(new Command(name, args));
+            }
+        }
+
+        RunCommands(commands, robot, table);
+    }*/
+
+    public void RunCommands(List<Command> commands, Robot robot, Table table)
+    {
+        foreach(Command c in commands)
+        {
+            RunCommand(c, robot, table);
         }
     }
 
@@ -67,14 +112,18 @@ public class Simulator : MonoBehaviour
     /// <param name="args">The arguments with the provided method.</param>
     /// <param name="robot">The robot in the simulation.</param>
     /// <param name="table">The table in the simulation.</param>
-    public void RunCommand(string methodName, string[] args, Robot robot, Table table)
+    public void RunCommand(Command command, Robot robot, Table table)
     {
-       if(methodName == "PLACE")
+       if(command.Name == "PLACE")
        {
-            int x = int.Parse(args[0]);
-            int y = int.Parse(args[1]);
+            int x = -1;
+            int y = -1;
 
-            Robot.Direction direction = (Robot.Direction)System.Enum.Parse(typeof(Robot.Direction), args[2], true);
+            Robot.Direction direction = Robot.Direction.North;
+
+            int.TryParse(command.Arguments["X"], out x);
+            int.TryParse(command.Arguments["Y"], out y);
+            System.Enum.TryParse("FACING", true, out direction);
 
             if(table.IsValidCell(x, y))
             {
@@ -87,7 +136,7 @@ public class Simulator : MonoBehaviour
        }
        else if(robot.IsPlaced)
        {
-            if(methodName == "MOVE")
+            if(command.Name == "MOVE")
             {
                 Table.Cell neighbouringCell = table.GetNeighbouringCellInDirection(robot.CurrentCell, robot.CurrentlyFacing);
 
@@ -96,15 +145,15 @@ public class Simulator : MonoBehaviour
                     robot.CurrentCell = neighbouringCell; 
                 }         
             }
-            else if(methodName == "LEFT")
+            else if(command.Name == "LEFT")
             {
                 robot.Left();
             }
-            else if(methodName == "RIGHT")
+            else if(command.Name == "RIGHT")
             {
                 robot.Right();
             }
-            else if(methodName == "REPORT")
+            else if(command.Name == "REPORT")
             {
                  robot.Report();
             }
