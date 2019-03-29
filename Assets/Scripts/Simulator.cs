@@ -14,8 +14,8 @@ public class Simulator : MonoBehaviour
     [SerializeField]
     Robot m_robot = null;
 
-    [SerializeField]
-    TextAsset m_commandText = null;
+    // [SerializeField]
+    // TextAsset m_commandText = null;
 
     public struct Command
     {
