@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class Robot : MonoBehaviour
 {
-    public enum Direction
+    public enum Facing
     {
         North,
         East,
@@ -15,43 +15,7 @@ public class Robot : MonoBehaviour
         West
     }
 
-    Direction m_currentlyFacing;
-
-    public Direction CurrentlyFacing
-    {
-        get
-        {
-            return m_currentlyFacing;
-        }
-        set
-        {
-            float yRotation = 0f;
-
-            m_currentlyFacing = value;
-
-            switch(value)
-            {                
-                case Direction.North:
-                yRotation = 0f;
-                break;
-
-                case Direction.East:
-                yRotation = 90f;
-                break;
-
-                case Direction.South:
-                yRotation = 180f;
-                break;
-
-                case Direction.West:
-                yRotation = 270f;
-                break;
-            }
-
-            // Rotate the robot's rotation dependant on the direction value set.
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, yRotation, transform.rotation.eulerAngles.z);
-        }
-    }
+    public Facing CurrentlyFacing { get; set; }
 
     Table.Cell m_currentCell;
 
@@ -78,7 +42,7 @@ public class Robot : MonoBehaviour
     /// </summary>
     /// <param name="cell">The cell to place the robot on.</param>
     /// <param name="facing">The direction the robot should face.</param>
-    public void Place(Table.Cell cell, Direction facing)
+    public void Place(Table.Cell cell, Facing facing)
     {
         CurrentCell = cell;
 
@@ -92,12 +56,14 @@ public class Robot : MonoBehaviour
     /// <summary>
     /// Turns the robot to the left.
     /// </summary>
-    public void Left()
+    public IEnumerator Left()
     {
         if(IsPlaced)
         {
             // Wrap around to the west if the robot is currently facing north.
-            CurrentlyFacing = CurrentlyFacing == Direction.North ? Direction.West : CurrentlyFacing - 1;
+            Facing toFace = CurrentlyFacing == Facing.North ? Facing.West : CurrentlyFacing - 1;
+
+            yield return RotateToFacing(toFace);
         }
         else
         {
@@ -108,12 +74,14 @@ public class Robot : MonoBehaviour
     /// <summary>
     /// Turns the robot to the right.
     /// </summary>
-    public void Right()
+    public IEnumerator Right()
     {
         if(IsPlaced)
         {
             // Wrap around to the north if the robot is currently facing west.
-            CurrentlyFacing = CurrentlyFacing == Direction.West ? Direction.North : CurrentlyFacing + 1;
+            Facing toFace = CurrentlyFacing == Facing.West ? Facing.North : CurrentlyFacing + 1;
+
+            yield return RotateToFacing(toFace);
         }
         else
         {
@@ -134,5 +102,43 @@ public class Robot : MonoBehaviour
         {
             Debug.LogError("Robot cannot report until it has been placed on the table");
         }
+    }
+
+    public IEnumerator RotateToFacing(Facing toFace)
+    {
+            float yRotation = 0f;
+
+            switch(toFace)
+            {                
+                case Facing.North:
+                yRotation = 0f;
+                break;
+
+                case Facing.East:
+                yRotation = 90f;
+                break;
+
+                case Facing.South:
+                yRotation = 180f;
+                break;
+
+                case Facing.West:
+                yRotation = 270f;
+                break;
+            }
+
+        Quaternion from = transform.rotation;
+        Quaternion to = Quaternion.Euler(from.eulerAngles.x, yRotation, from.eulerAngles.z);
+        float timer = 0f;
+        float duration = 2f;
+
+        while(timer < duration)
+        {
+            timer += Time.deltaTime;
+            transform.rotation = Quaternion.Lerp(from, to, timer / duration);
+            yield return null;
+        }
+
+        CurrentlyFacing = toFace;
     }
 }

@@ -50,10 +50,15 @@ public class Simulator : MonoBehaviour
                     { "FACING", "North" }
                 }
             ),
+            new Command("LEFT"),
+            new Command("LEFT"),
+            new Command("LEFT"),
+            new Command("LEFT"),
+            new Command("LEFT"),
             new Command("REPORT")
         };
 
-        RunCommands(commands, m_robot, m_table);
+        StartCoroutine(RunCommands(commands, m_robot, m_table));
     }
 
     /// <summary>
@@ -97,11 +102,11 @@ public class Simulator : MonoBehaviour
         RunCommands(commands, robot, table);
     }*/
 
-    public void RunCommands(List<Command> commands, Robot robot, Table table)
+    public IEnumerator RunCommands(List<Command> commands, Robot robot, Table table)
     {
         foreach(Command c in commands)
         {
-            RunCommand(c, robot, table);
+            yield return StartCoroutine(RunCommand(c, robot, table));
         }
     }
 
@@ -112,14 +117,14 @@ public class Simulator : MonoBehaviour
     /// <param name="args">The arguments with the provided method.</param>
     /// <param name="robot">The robot in the simulation.</param>
     /// <param name="table">The table in the simulation.</param>
-    public void RunCommand(Command command, Robot robot, Table table)
+    public IEnumerator RunCommand(Command command, Robot robot, Table table)
     {
        if(command.Name == "PLACE")
        {
             int x = -1;
             int y = -1;
 
-            Robot.Direction direction = Robot.Direction.North;
+            Robot.Facing direction = Robot.Facing.North;
 
             int.TryParse(command.Arguments["X"], out x);
             int.TryParse(command.Arguments["Y"], out y);
@@ -147,16 +152,18 @@ public class Simulator : MonoBehaviour
             }
             else if(command.Name == "LEFT")
             {
-                robot.Left();
+                yield return StartCoroutine(robot.Left());
             }
             else if(command.Name == "RIGHT")
             {
-                robot.Right();
+                yield return StartCoroutine(robot.Right());
             }
             else if(command.Name == "REPORT")
             {
                  robot.Report();
             }
        }
+
+       yield return new WaitForSeconds(1f);
     }
 }

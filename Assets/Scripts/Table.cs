@@ -82,25 +82,25 @@ public class Table : MonoBehaviour
     /// if the cell is off the table.
     /// </summary>
     /// <param name="currentCell">The cell we want to start at when looking for a neighbour.</param>
-    /// <param name="direction">The direction we want to get a neighbour in.</param>
+    /// <param name="facing">The direction we want to get a neighbour in.</param>
     /// <returns></returns>
-    public Cell GetNeighbouringCellInDirection(Cell currentCell, Robot.Direction direction)
+    public Cell GetNeighbouringCellInDirection(Cell currentCell, Robot.Facing facing)
     {
         Cell newCell = currentCell;
 
-        if(direction == Robot.Direction.North && currentCell.Y < GetTableLength() - 2)
+        if(facing == Robot.Facing.North && currentCell.Y < GetTableLength() - 2)
         {
             newCell = m_cells[currentCell.X, currentCell.Y + 1];
         }
-        else if(direction == Robot.Direction.East && currentCell.X < GetTableWidth() - 2)
+        else if(facing == Robot.Facing.East && currentCell.X < GetTableWidth() - 2)
         {
             newCell = m_cells[currentCell.X + 1, currentCell.Y];
         }
-        else if(direction == Robot.Direction.South && currentCell.Y > 0)
+        else if(facing == Robot.Facing.South && currentCell.Y > 0)
         {
             newCell = m_cells[currentCell.X, currentCell.Y - 1];
         }
-        else if(direction == Robot.Direction.West && currentCell.X > 0)
+        else if(facing == Robot.Facing.West && currentCell.X > 0)
         {
             newCell = m_cells[currentCell.X - 1, currentCell.Y];
         }
