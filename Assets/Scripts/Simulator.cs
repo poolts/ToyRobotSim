@@ -44,17 +44,27 @@ public class Simulator : MonoBehaviour
         {
             new Command("PLACE",
                 new Dictionary<string, string> {
-                    { "X", "1" },
-                    { "Y", "1" },
-                    { "Z", "1" },
-                    { "FACING", "North" }
+                    { "X", "0" },
+                    { "Y", "2" },
+                    { "FACING", "EAST" }
                 }
             ),
+            new Command("RIGHT"),
+            new Command("MOVE"),
+            new Command("MOVE"),
+            new Command("RIGHT"),
+            new Command("MOVE"),
             new Command("LEFT"),
+            new Command("MOVE"),
             new Command("LEFT"),
+            new Command("MOVE"),
+            new Command("MOVE"),
             new Command("LEFT"),
+            new Command("MOVE"),
+            new Command("MOVE"),
+            new Command("MOVE"),
             new Command("LEFT"),
-            new Command("LEFT"),
+            new Command("MOVE"),
             new Command("REPORT")
         };
 
@@ -147,7 +157,7 @@ public class Simulator : MonoBehaviour
 
                 if(table.IsValidCell(neighbouringCell))
                 {
-                    robot.CurrentCell = neighbouringCell; 
+                    yield return StartCoroutine(robot.Move(neighbouringCell)); 
                 }         
             }
             else if(command.Name == "LEFT")
@@ -164,6 +174,6 @@ public class Simulator : MonoBehaviour
             }
        }
 
-       yield return new WaitForSeconds(1f);
+        yield return null;
     }
 }

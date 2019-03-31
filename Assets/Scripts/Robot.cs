@@ -19,21 +19,7 @@ public class Robot : MonoBehaviour
 
     Table.Cell m_currentCell;
 
-    public Table.Cell CurrentCell 
-    { 
-        get
-        { 
-            return m_currentCell;
-        } 
-        set
-        {
-            m_currentCell = value;
-
-            // Set the robot's world position to the cell's world position.
-            // Add an offset to ensure it's standing on the cell.
-            transform.position = value.WorldPosition + new Vector3(0f, 0.25f, 0f);
-        }
-    }
+    public Table.Cell CurrentCell { get; set; }
 
     public bool IsPlaced { get; private set; }
 
@@ -49,6 +35,8 @@ public class Robot : MonoBehaviour
         CurrentlyFacing = facing;
 
         IsPlaced = true;
+
+        transform.position = cell.WorldPosition + new Vector3(0f, 0.25f, 0f);
 
         transform.gameObject.SetActive(true);
     }
@@ -104,6 +92,30 @@ public class Robot : MonoBehaviour
         }
     }
 
+    public IEnumerator Move(Table.Cell cell)
+    {
+        // Set the robot's world position to the cell's world position.
+        // Add an offset to ensure it's standing on the cell.
+        Vector3 from = transform.position;
+        Vector3 to = cell.WorldPosition + new Vector3(0f, 0.25f, 0f);
+
+        float timer = 0f;
+        float duration = 2f;
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            transform.position = Vector3.Lerp(from, to, timer / duration);
+            yield return null;
+        }
+
+        transform.position = to;
+
+        CurrentCell = cell;
+
+        yield return null;
+    }
+
     public IEnumerator RotateToFacing(Facing toFace)
     {
             float yRotation = 0f;
@@ -138,6 +150,8 @@ public class Robot : MonoBehaviour
             transform.rotation = Quaternion.Lerp(from, to, timer / duration);
             yield return null;
         }
+
+        transform.rotation = to;
 
         CurrentlyFacing = toFace;
     }
