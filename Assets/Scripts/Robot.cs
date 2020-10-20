@@ -15,6 +15,9 @@ public class Robot : MonoBehaviour
         West
     }
 
+    [SerializeField]
+    private float m_timeToMove = 1f, m_timeToTurn = 1f;
+
     public Facing CurrentlyFacing { get; set; }
 
     public Table.Cell CurrentCell { get; set; }
@@ -98,12 +101,11 @@ public class Robot : MonoBehaviour
         Vector3 to = cell.WorldPosition + new Vector3(0f, 0.25f, 0f);
 
         float timer = 0f;
-        float duration = 2f;
 
-        while (timer < duration)
+        while (timer < m_timeToMove)
         {
             timer += Time.deltaTime;
-            transform.position = Vector3.Lerp(from, to, timer / duration);
+            transform.position = Vector3.Lerp(from, to, timer / m_timeToMove);
             yield return null;
         }
 
@@ -140,12 +142,11 @@ public class Robot : MonoBehaviour
         Quaternion from = transform.rotation;
         Quaternion to = Quaternion.Euler(from.eulerAngles.x, yRotation, from.eulerAngles.z);
         float timer = 0f;
-        float duration = 2f;
 
-        while(timer < duration)
+        while(timer < m_timeToMove)
         {
             timer += Time.deltaTime;
-            transform.rotation = Quaternion.Lerp(from, to, timer / duration);
+            transform.rotation = Quaternion.Lerp(from, to, timer / m_timeToMove);
             yield return null;
         }
 
