@@ -17,8 +17,6 @@ public class Robot : MonoBehaviour
 
     public Facing CurrentlyFacing { get; set; }
 
-    Table.Cell m_currentCell;
-
     public Table.Cell CurrentCell { get; set; }
 
     public bool IsPlaced { get; private set; }
