@@ -51,7 +51,7 @@ public class Robot : MonoBehaviour
             // Wrap around to the west if the robot is currently facing north.
             Facing toFace = CurrentlyFacing == Facing.North ? Facing.West : CurrentlyFacing - 1;
 
-            yield return RotateToFacing(toFace);
+            yield return RotateToFace(toFace);
         }
         else
         {
@@ -69,7 +69,7 @@ public class Robot : MonoBehaviour
             // Wrap around to the north if the robot is currently facing west.
             Facing toFace = CurrentlyFacing == Facing.West ? Facing.North : CurrentlyFacing + 1;
 
-            yield return RotateToFacing(toFace);
+            yield return RotateToFace(toFace);
         }
         else
         {
@@ -116,7 +116,7 @@ public class Robot : MonoBehaviour
         yield return null;
     }
 
-    public IEnumerator RotateToFacing(Facing toFace)
+    public IEnumerator RotateToFace(Facing toFace)
     {
             float yRotation = 0f;
 
