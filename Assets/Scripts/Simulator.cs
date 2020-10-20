@@ -13,8 +13,8 @@ public class Simulator : MonoBehaviour
     [SerializeField]
     private Robot m_robot = null;
 
-    // [SerializeField]
-    // TextAsset m_commandText = null;
+    [SerializeField]
+    TextAsset m_commandText = null;
 
     public struct Command
     {
@@ -39,35 +39,7 @@ public class Simulator : MonoBehaviour
     {
         m_table.Generate(5, 5);
 
-        List<Command> commands = new List<Command>()
-        {
-            new Command("PLACE",
-                new Dictionary<string, string> {
-                    { "X", "0" },
-                    { "Y", "2" },
-                    { "FACING", "EAST" }
-                }
-            ),
-            new Command("RIGHT"),
-            new Command("MOVE"),
-            new Command("MOVE"),
-            new Command("RIGHT"),
-            new Command("MOVE"),
-            new Command("LEFT"),
-            new Command("MOVE"),
-            new Command("LEFT"),
-            new Command("MOVE"),
-            new Command("MOVE"),
-            new Command("LEFT"),
-            new Command("MOVE"),
-            new Command("MOVE"),
-            new Command("MOVE"),
-            new Command("LEFT"),
-            new Command("MOVE"),
-            new Command("REPORT")
-        };
-
-        StartCoroutine(RunCommands(commands, m_robot, m_table));
+        RunCommands(m_commandText.text, m_robot, m_table);
     }
 
     /// <summary>
@@ -76,7 +48,7 @@ public class Simulator : MonoBehaviour
     /// <param name="commandText">The set of commands presented as a string.</param>
     /// <param name="robot">The robot in the simulation.</param>
     /// <param name="table">The table in the simulation.</param>
-    /*public void RunCommands(string commandText, Robot robot, Table table)
+    public void RunCommands(string commandText, Robot robot, Table table)
     {
         List<Command> commands = new List<Command>();
 
@@ -95,10 +67,19 @@ public class Simulator : MonoBehaviour
             {
                name = command[0];
 
-               if(command.Length > 1)
+                if (name == "PLACE" && command.Length > 1)
                {
-                    // If arguments are provided split them by a comma
-                   args = command[1].Split(',').ToDictionary(v => v, v => item.Value);
+                    string[] argsRawText = command[1].Split(',');
+
+                    if(argsRawText.Length > 2)
+                    {
+                        args = new Dictionary<string, string>
+                        {
+                            { "X", argsRawText[0] },
+                            { "Y", argsRawText[1] },
+                            { "FACING", argsRawText[2] }
+                        };
+                    }
                }
             }
 
@@ -108,8 +89,8 @@ public class Simulator : MonoBehaviour
             }
         }
 
-        RunCommands(commands, robot, table);
-    }*/
+        StartCoroutine(RunCommands(commands, robot, table));
+    }
 
     public IEnumerator RunCommands(List<Command> commands, Robot robot, Table table)
     {
@@ -128,8 +109,8 @@ public class Simulator : MonoBehaviour
     /// <param name="table">The table in the simulation.</param>
     public IEnumerator RunCommand(Command command, Robot robot, Table table)
     {
-       if(command.Name == "PLACE")
-       {
+        if(command.Name == "PLACE")
+        {
             int.TryParse(command.Arguments["X"], out int x);
             int.TryParse(command.Arguments["Y"], out int y);
             System.Enum.TryParse("FACING", true, out Robot.Facing direction);
@@ -142,9 +123,9 @@ public class Simulator : MonoBehaviour
             {
                 Debug.LogError("Tried to place robot at " + x + "," + y + " which is invalid");
             }
-       }
-       else if(robot.IsPlaced)
-       {
+        }
+        else if(robot.IsPlaced)
+        {
             if(command.Name == "MOVE")
             {
                 Table.Cell neighbouringCell = table.GetNeighbouringCellInDirection(robot.CurrentCell, robot.CurrentlyFacing);
@@ -166,7 +147,11 @@ public class Simulator : MonoBehaviour
             {
                  robot.Report();
             }
-       }
+        }
+        else
+        {
+            Debug.LogError("Robot is trying to be controlled, but has not yet placed");
+        }
 
         yield return null;
     }

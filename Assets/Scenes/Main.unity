@@ -384,6 +384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_table: {fileID: 1088004348}
   m_robot: {fileID: 339186770}
+  m_commandText: {fileID: 4900000, guid: 37547bb654cf2264fb32c3327738282e, type: 3}
 --- !u!4 &2070255445
 Transform:
   m_ObjectHideFlags: 0
