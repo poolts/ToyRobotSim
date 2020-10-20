@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -9,10 +8,10 @@ using UnityEngine;
 public class Simulator : MonoBehaviour
 {
     [SerializeField]
-    Table m_table = null;
+    private Table m_table = null;
 
     [SerializeField]
-    Robot m_robot = null;
+    private Robot m_robot = null;
 
     // [SerializeField]
     // TextAsset m_commandText = null;
@@ -131,16 +130,11 @@ public class Simulator : MonoBehaviour
     {
        if(command.Name == "PLACE")
        {
-            int x = -1;
-            int y = -1;
+            int.TryParse(command.Arguments["X"], out int x);
+            int.TryParse(command.Arguments["Y"], out int y);
+            System.Enum.TryParse("FACING", true, out Robot.Facing direction);
 
-            Robot.Facing direction = Robot.Facing.North;
-
-            int.TryParse(command.Arguments["X"], out x);
-            int.TryParse(command.Arguments["Y"], out y);
-            System.Enum.TryParse("FACING", true, out direction);
-
-            if(table.IsValidCell(x, y))
+            if (table.IsValidCell(x, y))
             {
                 robot.Place(table.GetCell(x, y), direction);
             }
