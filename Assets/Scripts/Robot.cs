@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace RobotSimulation
@@ -17,7 +16,8 @@ namespace RobotSimulation
             West
         }
 
-        [SerializeField] private float m_timeToMove = 1f, m_timeToTurn = 1f;
+        [SerializeField] 
+        private float m_timeToMove = 1f, m_timeToTurn = 1f;
 
         public Facing CurrentlyFacing { get; set; }
 
@@ -51,7 +51,7 @@ namespace RobotSimulation
             if (IsPlaced)
             {
                 // Wrap around to the west if the robot is currently facing north.
-                Facing toFace = CurrentlyFacing == Facing.North ? Facing.West : CurrentlyFacing - 1;
+                var toFace = CurrentlyFacing == Facing.North ? Facing.West : CurrentlyFacing - 1;
 
                 yield return RotateToFace(toFace);
             }
@@ -69,7 +69,7 @@ namespace RobotSimulation
             if (IsPlaced)
             {
                 // Wrap around to the north if the robot is currently facing west.
-                Facing toFace = CurrentlyFacing == Facing.West ? Facing.North : CurrentlyFacing + 1;
+                var toFace = CurrentlyFacing == Facing.West ? Facing.North : CurrentlyFacing + 1;
 
                 yield return RotateToFace(toFace);
             }
@@ -98,10 +98,10 @@ namespace RobotSimulation
         {
             // Set the robot's world position to the cell's world position.
             // Add an offset to ensure it's standing on the cell.
-            Vector3 from = transform.position;
-            Vector3 to = cell.WorldPosition + new Vector3(0f, 0.25f, 0f);
+            var from = transform.position;
+            var to = cell.WorldPosition + new Vector3(0f, 0.25f, 0f);
 
-            float timer = 0f;
+            var timer = 0f;
 
             while (timer < m_timeToMove)
             {
@@ -119,30 +119,18 @@ namespace RobotSimulation
 
         public IEnumerator RotateToFace(Facing toFace)
         {
-            float yRotation = 0f;
-
-            switch (toFace)
+            var yRotation = toFace switch
             {
-                case Facing.North:
-                    yRotation = 0f;
-                    break;
+                Facing.North => 0f,
+                Facing.East => 90f,
+                Facing.South => 180f,
+                Facing.West => 270f,
+                _ => 0f
+            };
 
-                case Facing.East:
-                    yRotation = 90f;
-                    break;
-
-                case Facing.South:
-                    yRotation = 180f;
-                    break;
-
-                case Facing.West:
-                    yRotation = 270f;
-                    break;
-            }
-
-            Quaternion from = transform.rotation;
-            Quaternion to = Quaternion.Euler(from.eulerAngles.x, yRotation, from.eulerAngles.z);
-            float timer = 0f;
+            var from = transform.rotation;
+            var to = Quaternion.Euler(from.eulerAngles.x, yRotation, from.eulerAngles.z);
+            var timer = 0f;
 
             while (timer < m_timeToMove)
             {

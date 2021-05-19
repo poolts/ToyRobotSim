@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RobotSimulation
 {
@@ -9,9 +7,10 @@ namespace RobotSimulation
     /// </summary>
     public class Table : MonoBehaviour
     {
-        [SerializeField] GameObject m_cellPrefab = null;
+        [SerializeField] 
+        private GameObject m_cellPrefab = null;
 
-        Cell[,] m_cells;
+        private Cell[,] m_cells;
 
         /// <summary>
         /// Each cell contains an X and Y coordinate on the table (which is essentially an index into the 2D array)
@@ -19,10 +18,10 @@ namespace RobotSimulation
         /// </summary>
         public struct Cell
         {
-            public int X { get; private set; }
-            public int Y { get; private set; }
+            public int X { get; }
+            public int Y { get; }
 
-            public Vector3 WorldPosition { get; private set; }
+            public Vector3 WorldPosition { get; }
 
             public Cell(int x, int y, Vector3 worldPos)
             {
@@ -32,10 +31,7 @@ namespace RobotSimulation
             }
 
             // Override the ToString method to have a neat format when logging a cell.
-            public override string ToString()
-            {
-                return X + "," + Y;
-            }
+            public override string ToString() => string.Join(",", X, Y);
         }
 
         /// <summary>
@@ -47,17 +43,17 @@ namespace RobotSimulation
         {
             m_cells = new Cell[tableWidth, tableLength];
 
-            for (int i = 0; i < m_cells.GetLength(0); i++)
+            for (var i = 0; i < m_cells.GetLength(0); i++)
             {
-                for (int j = 0; j < m_cells.GetLength(1); j++)
+                for (var j = 0; j < m_cells.GetLength(1); j++)
                 {
-                    Vector3 cellPosition = new Vector3(i, 0, j);
+                    var cellPosition = new Vector3(i, 0, j);
 
                     // Checks if the prefab exists. This is used to protect against null errors
                     // when running the editor unit tests (as the prefab only exists at run-time).
                     if (m_cellPrefab != null)
                     {
-                        Transform cellTrans = GameObject.Instantiate(m_cellPrefab, cellPosition, Quaternion.identity)
+                        var cellTrans = Instantiate(m_cellPrefab, cellPosition, Quaternion.identity)
                             .transform;
 
                         cellTrans.parent = transform;
@@ -74,10 +70,7 @@ namespace RobotSimulation
         /// <param name="x">The X coordinate of the requested cell.</param>
         /// <param name="y">The Y coordinate of the requested cell.</param>
         /// <returns>The cell at the X and Y coordinates.</returns>
-        public Cell GetCell(int x, int y)
-        {
-            return m_cells[x, y];
-        }
+        public Cell GetCell(int x, int y) => m_cells[x, y];
 
         /// <summary>
         /// Gets the neighbouring cell in a given direction. Will return the current cell
@@ -88,7 +81,7 @@ namespace RobotSimulation
         /// <returns></returns>
         public Cell GetNeighbouringCellInDirection(Cell currentCell, Robot.Facing facing)
         {
-            Cell newCell = currentCell;
+            var newCell = currentCell;
 
             if (facing == Robot.Facing.North && currentCell.Y < GetTableLength() - 2)
             {
@@ -115,10 +108,7 @@ namespace RobotSimulation
         /// </summary>
         /// <param name="cell">The cell to validate.</param>
         /// <returns>If the cell is valid.</returns>
-        public bool IsValidCell(Cell cell)
-        {
-            return IsValidCell(cell.X, cell.Y);
-        }
+        public bool IsValidCell(Cell cell) => IsValidCell(cell.X, cell.Y);
 
         /// <summary>
         /// Returns if a cell is valid. A cell is valid if it's X and Y coordinates are contained within the table.
@@ -135,18 +125,12 @@ namespace RobotSimulation
         /// Gets the width of the table.
         /// </summary>
         /// <returns>The width of the table.</returns>
-        public int GetTableWidth()
-        {
-            return m_cells.GetLength(0);
-        }
+        public int GetTableWidth() => m_cells.GetLength(0);
 
         /// <summary>
         /// Gets the length of the table.
         /// </summary>
         /// <returns>The length of the table.</returns>
-        public int GetTableLength()
-        {
-            return m_cells.GetLength(1);
-        }
+        public int GetTableLength() => m_cells.GetLength(1);
     }
 }
