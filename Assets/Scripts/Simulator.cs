@@ -10,14 +10,11 @@ namespace RobotSimulation
     /// </summary>
     public class Simulator : MonoBehaviour
     {
-        [SerializeField]
-        private Table m_table = null;
+        [SerializeField] private Table m_table = null;
 
-        [SerializeField]
-        private Robot m_robot = null;
+        [SerializeField] private Robot m_robot = null;
 
-        [SerializeField]
-        private TextAsset m_commandText = null;
+        [SerializeField] private TextAsset m_commandText = null;
 
         public struct Command
         {

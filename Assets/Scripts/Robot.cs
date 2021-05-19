@@ -16,8 +16,7 @@ namespace RobotSimulation
             West
         }
 
-        [SerializeField] 
-        private float m_timeToMove = 1f, m_timeToTurn = 1f;
+        [SerializeField] private float m_timeToMove = 1f, m_timeToTurn = 1f;
 
         public Facing CurrentlyFacing { get; set; }
 

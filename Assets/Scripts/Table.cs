@@ -7,8 +7,7 @@ namespace RobotSimulation
     /// </summary>
     public class Table : MonoBehaviour
     {
-        [SerializeField] 
-        private GameObject m_cellPrefab = null;
+        [SerializeField] private GameObject m_cellPrefab = null;
 
         private Cell[,] m_cells;
 
@@ -83,21 +82,20 @@ namespace RobotSimulation
         {
             var newCell = currentCell;
 
-            if (facing == Robot.Facing.North && currentCell.Y < GetTableLength() - 2)
+            switch (facing)
             {
-                newCell = m_cells[currentCell.X, currentCell.Y + 1];
-            }
-            else if (facing == Robot.Facing.East && currentCell.X < GetTableWidth() - 2)
-            {
-                newCell = m_cells[currentCell.X + 1, currentCell.Y];
-            }
-            else if (facing == Robot.Facing.South && currentCell.Y > 0)
-            {
-                newCell = m_cells[currentCell.X, currentCell.Y - 1];
-            }
-            else if (facing == Robot.Facing.West && currentCell.X > 0)
-            {
-                newCell = m_cells[currentCell.X - 1, currentCell.Y];
+                case Robot.Facing.North when currentCell.Y < GetTableLength() - 2:
+                    newCell = m_cells[currentCell.X, currentCell.Y + 1];
+                    break;
+                case Robot.Facing.East when currentCell.X < GetTableWidth() - 2:
+                    newCell = m_cells[currentCell.X + 1, currentCell.Y];
+                    break;
+                case Robot.Facing.South when currentCell.Y > 0:
+                    newCell = m_cells[currentCell.X, currentCell.Y - 1];
+                    break;
+                case Robot.Facing.West when currentCell.X > 0:
+                    newCell = m_cells[currentCell.X - 1, currentCell.Y];
+                    break;
             }
 
             return newCell;
