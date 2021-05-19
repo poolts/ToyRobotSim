@@ -34,7 +34,7 @@ namespace RobotSimulation
         }
 
         /// <summary>
-        /// Generates the table by creating the cells and instanting the cell prefabs.
+        /// Generates the table by creating the cells and instantiating the cell prefabs.
         /// </summary>
         /// <param name="tableWidth">The width of the table (the maximum X coordinate).</param>
         /// <param name="tableLength">The length of the table (the maximum Y coordinate).</param>

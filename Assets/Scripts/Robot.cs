@@ -42,22 +42,24 @@ namespace RobotSimulation
             transform.gameObject.SetActive(true);
         }
 
+        public IEnumerator Turn(Facing toFace)
+        {
+            if (IsPlaced)
+            {
+                yield return RotateToFace(toFace);
+            }
+            else
+            {
+                Debug.LogError("Robot cannot turn until it has been placed on the table");
+            }
+        }
+
         /// <summary>
         /// Turns the robot to the left.
         /// </summary>
         public IEnumerator Left()
         {
-            if (IsPlaced)
-            {
-                // Wrap around to the west if the robot is currently facing north.
-                var toFace = CurrentlyFacing == Facing.North ? Facing.West : CurrentlyFacing - 1;
-
-                yield return RotateToFace(toFace);
-            }
-            else
-            {
-                Debug.LogError("Robot cannot turn left until it has been placed on the table");
-            }
+            yield return Turn(CurrentlyFacing == Facing.North ? Facing.West : CurrentlyFacing - 1);
         }
 
         /// <summary>
@@ -65,17 +67,7 @@ namespace RobotSimulation
         /// </summary>
         public IEnumerator Right()
         {
-            if (IsPlaced)
-            {
-                // Wrap around to the north if the robot is currently facing west.
-                var toFace = CurrentlyFacing == Facing.West ? Facing.North : CurrentlyFacing + 1;
-
-                yield return RotateToFace(toFace);
-            }
-            else
-            {
-                Debug.LogError("Robot cannot turn right until it has been placed on the table");
-            }
+            yield return Turn(CurrentlyFacing == Facing.West ? Facing.North : CurrentlyFacing + 1);
         }
 
         /// <summary>
