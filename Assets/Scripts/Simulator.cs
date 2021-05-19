@@ -1,11 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// A simualator processes commands and controls the the robot and table accordingly. 
-/// </summary>
-public class Simulator : MonoBehaviour
+namespace RobotSimulation
+{
+    /// <summary>
+    /// A simulator processes commands and controls the the robot and table accordingly. 
+    /// </summary>
+    public class Simulator : MonoBehaviour
 {
     [SerializeField]
     private Table m_table = null;
@@ -49,7 +52,7 @@ public class Simulator : MonoBehaviour
         var commands = new List<Command>();
 
         // Commands are split by line (as formatted in the text file).
-        var commandLines = commandText.Split(new string[] {"\n"}, System.StringSplitOptions.None);
+        var commandLines = commandText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
         // Iterate through each command and split it into the method name and an arguments provided
         foreach(var line in commandLines)
@@ -123,7 +126,7 @@ public class Simulator : MonoBehaviour
         {
             if(command.Name == "MOVE")
             {
-                Table.Cell neighbouringCell = table.GetNeighbouringCellInDirection(robot.CurrentCell, robot.CurrentlyFacing);
+                var neighbouringCell = table.GetNeighbouringCellInDirection(robot.CurrentCell, robot.CurrentlyFacing);
 
                 if(table.IsValidCell(neighbouringCell))
                 {
@@ -150,4 +153,5 @@ public class Simulator : MonoBehaviour
 
         yield return null;
     }
+}
 }
