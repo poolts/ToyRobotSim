@@ -16,7 +16,7 @@ namespace RobotSimulation
             West
         }
 
-        [SerializeField] private float m_timeToMove = 1f, m_timeToTurn = 1f;
+        [SerializeField] private float _timeToMove = 1f, _timeToTurn = 1f;
 
         public Facing CurrentlyFacing { get; set; }
 
@@ -94,10 +94,10 @@ namespace RobotSimulation
 
             var timer = 0f;
 
-            while (timer < m_timeToMove)
+            while (timer < _timeToMove)
             {
                 timer += Time.deltaTime;
-                transform.position = Vector3.Lerp(from, to, timer / m_timeToMove);
+                transform.position = Vector3.Lerp(from, to, timer / _timeToMove);
                 yield return null;
             }
 
@@ -123,10 +123,10 @@ namespace RobotSimulation
             var to = Quaternion.Euler(from.eulerAngles.x, yRotation, from.eulerAngles.z);
             var timer = 0f;
 
-            while (timer < m_timeToMove)
+            while (timer < _timeToTurn)
             {
                 timer += Time.deltaTime;
-                transform.rotation = Quaternion.Lerp(from, to, timer / m_timeToMove);
+                transform.rotation = Quaternion.Lerp(from, to, timer / _timeToTurn);
                 yield return null;
             }
 

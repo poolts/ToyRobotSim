@@ -7,9 +7,9 @@ namespace RobotSimulation
     /// </summary>
     public class Table : MonoBehaviour
     {
-        [SerializeField] private GameObject m_cellPrefab = null;
+        [SerializeField] private GameObject _cellPrefab = null;
 
-        private Cell[,] m_cells;
+        private Cell[,] _cells;
 
         /// <summary>
         /// Each cell contains an X and Y coordinate on the table (which is essentially an index into the 2D array)
@@ -40,25 +40,25 @@ namespace RobotSimulation
         /// <param name="tableLength">The length of the table (the maximum Y coordinate).</param>
         public void Generate(int tableWidth, int tableLength)
         {
-            m_cells = new Cell[tableWidth, tableLength];
+            _cells = new Cell[tableWidth, tableLength];
 
-            for (var i = 0; i < m_cells.GetLength(0); i++)
+            for (var i = 0; i < _cells.GetLength(0); i++)
             {
-                for (var j = 0; j < m_cells.GetLength(1); j++)
+                for (var j = 0; j < _cells.GetLength(1); j++)
                 {
                     var cellPosition = new Vector3(i, 0, j);
 
                     // Checks if the prefab exists. This is used to protect against null errors
                     // when running the editor unit tests (as the prefab only exists at run-time).
-                    if (m_cellPrefab != null)
+                    if (_cellPrefab != null)
                     {
-                        var cellTrans = Instantiate(m_cellPrefab, cellPosition, Quaternion.identity)
+                        var cellTrans = Instantiate(_cellPrefab, cellPosition, Quaternion.identity)
                             .transform;
 
                         cellTrans.parent = transform;
                     }
 
-                    m_cells[i, j] = new Cell(i, j, cellPosition);
+                    _cells[i, j] = new Cell(i, j, cellPosition);
                 }
             }
         }
@@ -69,7 +69,7 @@ namespace RobotSimulation
         /// <param name="x">The X coordinate of the requested cell.</param>
         /// <param name="y">The Y coordinate of the requested cell.</param>
         /// <returns>The cell at the X and Y coordinates.</returns>
-        public Cell GetCell(int x, int y) => m_cells[x, y];
+        public Cell GetCell(int x, int y) => _cells[x, y];
 
         /// <summary>
         /// Gets the neighbouring cell in a given direction. Will return the current cell
@@ -85,16 +85,16 @@ namespace RobotSimulation
             switch (facing)
             {
                 case Robot.Facing.North when currentCell.Y < GetTableLength() - 2:
-                    newCell = m_cells[currentCell.X, currentCell.Y + 1];
+                    newCell = _cells[currentCell.X, currentCell.Y + 1];
                     break;
                 case Robot.Facing.East when currentCell.X < GetTableWidth() - 2:
-                    newCell = m_cells[currentCell.X + 1, currentCell.Y];
+                    newCell = _cells[currentCell.X + 1, currentCell.Y];
                     break;
                 case Robot.Facing.South when currentCell.Y > 0:
-                    newCell = m_cells[currentCell.X, currentCell.Y - 1];
+                    newCell = _cells[currentCell.X, currentCell.Y - 1];
                     break;
                 case Robot.Facing.West when currentCell.X > 0:
-                    newCell = m_cells[currentCell.X - 1, currentCell.Y];
+                    newCell = _cells[currentCell.X - 1, currentCell.Y];
                     break;
             }
 
@@ -116,19 +116,19 @@ namespace RobotSimulation
         /// <returns>If the cell is valid.</returns>
         public bool IsValidCell(int x, int y)
         {
-            return x >= 0 && x < m_cells.GetLength(0) && y >= 0 && y < m_cells.GetLength(1);
+            return x >= 0 && x < _cells.GetLength(0) && y >= 0 && y < _cells.GetLength(1);
         }
 
         /// <summary>
         /// Gets the width of the table.
         /// </summary>
         /// <returns>The width of the table.</returns>
-        public int GetTableWidth() => m_cells.GetLength(0);
+        public int GetTableWidth() => _cells.GetLength(0);
 
         /// <summary>
         /// Gets the length of the table.
         /// </summary>
         /// <returns>The length of the table.</returns>
-        public int GetTableLength() => m_cells.GetLength(1);
+        public int GetTableLength() => _cells.GetLength(1);
     }
 }

@@ -10,11 +10,11 @@ namespace RobotSimulation
     /// </summary>
     public class Simulator : MonoBehaviour
     {
-        [SerializeField] private Table m_table = null;
+        [SerializeField] private Table _table = null;
 
-        [SerializeField] private Robot m_robot = null;
+        [SerializeField] private Robot _robot = null;
 
-        [SerializeField] private TextAsset m_commandText = null;
+        [SerializeField] private TextAsset _commandText = null;
 
         public struct Command
         {
@@ -33,9 +33,9 @@ namespace RobotSimulation
         /// </summary>
         private void Start()
         {
-            m_table.Generate(5, 5);
+            _table.Generate(5, 5);
 
-            StartCoroutine(RunCommands(m_commandText.text, m_robot, m_table));
+            StartCoroutine(RunCommands(_commandText.text, _robot, _table));
         }
 
         /// <summary>
