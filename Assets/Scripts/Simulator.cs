@@ -35,7 +35,7 @@ namespace RobotSimulation
         {
             m_table.Generate(5, 5);
 
-            RunCommands(m_commandText.text, m_robot, m_table);
+            StartCoroutine(RunCommands(m_commandText.text, m_robot, m_table));
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace RobotSimulation
         /// <param name="commandText">The set of commands presented as a string.</param>
         /// <param name="robot">The robot in the simulation.</param>
         /// <param name="table">The table in the simulation.</param>
-        public void RunCommands(string commandText, Robot robot, Table table)
+        public IEnumerator RunCommands(string commandText, Robot robot, Table table, Action commandsComplete = null)
         {
             var commands = new List<Command>();
 
@@ -85,7 +85,9 @@ namespace RobotSimulation
                 }
             }
 
-            StartCoroutine(RunCommands(commands, robot, table));
+            yield return StartCoroutine(RunCommands(commands, robot, table));
+
+            commandsComplete?.Invoke();
         }
 
         public IEnumerator RunCommands(List<Command> commands, Robot robot, Table table)
