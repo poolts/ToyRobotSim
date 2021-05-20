@@ -8,11 +8,11 @@ namespace Tests
 {
     public class TestCommands
     {
-        Simulator m_simulator;
+        private Simulator m_simulator;
 
-        Robot m_robot;
+        private Robot m_robot;
 
-        Table m_table;
+        private Table m_table;
 
         // Initialises a test. Each time a test is run a simulator, robot and table are newly created.
         [SetUp]
